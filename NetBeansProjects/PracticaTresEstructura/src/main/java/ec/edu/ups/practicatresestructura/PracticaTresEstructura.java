@@ -5,7 +5,6 @@
 package ec.edu.ups.practicatresestructura;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -17,37 +16,74 @@ public class PracticaTresEstructura {
     private Scanner teclado;
     
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Ingrese la lista de signos sin espacios: ");
-        String entrada = scanner.nextLine();
 
-        List<String> listaSignos = new ArrayList<>();
 
-        // Recorrer la entrada y agregar los signos a la lista
-        for (int i = 0; i < entrada.length(); i++) {
-            String signo = Character.toString(entrada.charAt(i));
-            listaSignos.add(signo);
+        Scanner teclado = new Scanner(System.in);
+        Character d = null;
+        String sig;
+        ArrayList<Character> listaCaracteres = new ArrayList<>();
+        ArrayList<Character> finales = new ArrayList<>();
+        System.out.print("Ingresa una lista de signos (separados por espacios): ");
+        String input = teclado.nextLine();
+        String[] caracteres = input.split(" ");
+
+        for (String caracter : caracteres) {
+            char c = caracter.charAt(0);
+            listaCaracteres.add(c);
         }
-
-        System.out.println("Lista original: " + listaSignos);
-
-        Stack<String> pilaSignos = new Stack<>();
-
-        // Recorrer la lista de signos
-        for (String signo : listaSignos) {
-            if (!pilaSignos.isEmpty() && esOpuesto(signo, pilaSignos.peek())) {
-                // El signo actual coincide con el opuesto al último signo en la pila, se elimina el último signo
-                pilaSignos.pop();
-            } else {
-                // El signo actual no coincide con el opuesto, se imprime y se agrega a la pila
-                System.out.println("Signo: " + signo);
-                pilaSignos.push(signo);
+        
+        
+        for (Character caracter1 : listaCaracteres) {
+            String caracter = caracter1.toString();
+            if (caracter.equals("{")) {
+                finales.add(caracter1);
+            } else if (caracter.equals("[")) {
+                finales.add(caracter1);
+            } else if (caracter.equals("(")) {
+                finales.add(caracter1);
+            } else if (caracter.equals("}")) {
+                d = finales.get(finales.size() - 1);
+                sig = d.toString();
+                if (sig.equals("{")) {
+                    finales.remove(finales.size() - 1);
+                } else if (sig.equals("[")) {
+                    finales.add(caracter1);
+                } else if (sig.equals("(")) {
+                    finales.add(caracter1);
+                }
+            } else if (caracter.equals("]")) {
+                d = finales.get(finales.size() - 1);
+                sig = d.toString();
+                if (sig.equals("{")) {
+                    finales.add(caracter1);
+                } else if (sig.equals("[")) {
+                    finales.remove(finales.size() - 1);
+                } else if (sig.equals("(")) {
+                    finales.add(caracter1);
+                }
+            } else if (caracter.equals(")")) {
+                d = finales.get(finales.size() - 1);
+                sig = d.toString();
+                if (sig.equals("{")) {
+                    finales.add(caracter1);
+                } else if (sig.equals("[")) {
+                    finales.add(caracter1);
+                } else if (sig.equals("(")) {
+                    finales.remove(finales.size() - 1);
+                }
             }
         }
-
-        scanner.close();
+        StringBuilder sb = new StringBuilder();
+        for (Character elemento : finales) {
+            sb.append(elemento);
+            System.out.println(sb);
+        }
     }
+}
+
+
                 
     
-}
+
+
